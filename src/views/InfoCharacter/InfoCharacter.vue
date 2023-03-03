@@ -1,4 +1,8 @@
-<template>Tela de info do personagem {{ route.params.id }}</template>
+<template>
+  <div>
+    <h3>Info personagem</h3>
+  </div>
+</template>
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router';

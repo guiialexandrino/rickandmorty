@@ -1,0 +1,57 @@
+@import './animations.less';
+
+:root {
+  --primaryTextColor: rgba(255, 255, 255, 0.95);
+  --headerColor: rgba(0, 0, 0, 0.8);
+  --marginTop: 70px;
+  --maxWidth: 1800px;
+}
+
+body {
+  background-image: url('../images/pattern.png');
+  background-repeat: repeat;
+  background-color: black;
+  color: var(--primaryTextColor);
+  animation: galaxyMove 70s linear infinite alternate;
+  margin-top: var(--marginTop);
+  line-height: 1.5rem;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  padding: 10px 30px;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: inline-block;
+}
+
+img {
+  max-width: 100%;
+  user-select: none;
+}
+
+/* Global css's */
+._content_ {
+  max-width: var(--maxWidth) !important;
+  text-align: center;
+  // height: calc(100vh - var(--marginTop));
+}
+
+._contentHeight_ {
+  height: calc(100vh - var(--marginTop));
+}
+
+/* Transição rotas, usando Transition VUE */
+.v-enter-active {
+  transition: opacity 0.35s ease-in;
+}
+
+.v-leave-active {
+  transition: opacity 0.35s ease-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}

@@ -6,7 +6,7 @@ import store from './store';
 
 import '@quasar/extras/material-icons/material-icons.css';
 import 'quasar/dist/quasar.css';
-import './assets/main.css';
+import './assets/style/main.less';
 
 const app = createApp(App);
 
