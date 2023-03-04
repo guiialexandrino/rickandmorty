@@ -3,9 +3,7 @@
     <Transition mode="out-in">
       <div v-if="loadingDone">
         <img src="../../assets/images/Logo.png" class="_imageSize" />
-        <br />
         <CardsView :characters="charactersCard" />
-        <br />
       </div>
     </Transition>
   </div>

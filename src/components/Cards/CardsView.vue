@@ -1,45 +1,73 @@
 <template>
-  <div>
-    <div class="row q-py-md justify-center _structure">
+  <div ref="cards" class="row q-py-md justify-center _structure">
+    <div
+      class="row justify-center _cardView"
+      v-for="card in showCards"
+      :key="card.id"
+    >
       <div
-        class="row justify-center _cardView"
-        v-for="card in showCards"
-        :key="card.id"
-      >
-        <div
-          class="_avatar"
-          :style="`background-image: url('${card.image}')`"
-        ></div>
-        <div class="q-mt-sm _name">
-          <h3 :style="generateSizeName(card.name)">{{ card.name }}</h3>
-        </div>
+        class="_avatar"
+        :style="`background-image: url('${card.image}')`"
+      ></div>
+      <div class="q-mt-sm _name">
+        <h3 :style="generateSizeName(card.name)">{{ card.name }}</h3>
       </div>
     </div>
-    <button @click="actualPage++">Aumenta pagina</button>
+  </div>
+  <div class="column q-my-xl items-center">
+    <div class="col-12">
+      <q-pagination
+        v-model="actualPage"
+        :max="numberOfPages"
+        :max-pages="maxPagesPagination"
+        color="white"
+        active-color="primary"
+        size="18px"
+        boundary-numbers
+        boundary-links
+        icon-first="chevron_left"
+        icon-last="chevron_right"
+      />
+    </div>
+    <div class="col-12 text-h6 q-mt-md">
+      Exibindo página {{ actualPage }} de {{ numberOfPages }}
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { Card } from '@/types/Cards';
 import type { PropType } from 'vue';
-import { ref, computed } from 'vue';
-
-const actualPage = ref(1);
-const maxPerPage = ref(20);
-const numberOfPages = ref(0);
+import { ref, computed, onBeforeMount, onUnmounted, watch } from 'vue';
 
 const props = defineProps({
   characters: { type: Array as PropType<Card[]>, required: true },
 });
 
-// console.log(props.characters[0]);
-
+const cards = ref<HTMLDivElement | null>(null);
+const actualPage = ref(1);
+const maxPerPage = ref(20);
+const maxPagesPagination = ref(20);
+const numberOfPages = ref(0);
 const showCards = computed(() => {
   return generatePagination([...props.characters]);
 });
 
-const showCardName = computed(() => {
-  return;
+onBeforeMount(() => {
+  window.addEventListener('resize', paginationLimit);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', paginationLimit);
+});
+
+watch(actualPage, () => {
+  if (cards.value) {
+    cards.value.style.animation = 'fadeIn 1000ms';
+    setTimeout(() => {
+      if (cards.value) cards.value.style.animation = '';
+    }, 500);
+  }
 });
 
 function generatePagination(characters: Card[]) {
@@ -56,8 +84,19 @@ function generatePagination(characters: Card[]) {
   return content;
 }
 
+function paginationLimit() {
+  if (window.innerWidth < 1000) {
+    maxPerPage.value = 10;
+    maxPagesPagination.value = 5;
+  } else {
+    maxPerPage.value = 20;
+    maxPagesPagination.value = 20;
+  }
+}
+
 function generateSizeName(name: String) {
-  if (name.length > 20) return 'font-size: 1.25rem !important';
+  if (name.length > 18)
+    return 'font-size: 1.25rem !important; line-height: 1.5rem !important';
   else return '';
 }
 </script>
