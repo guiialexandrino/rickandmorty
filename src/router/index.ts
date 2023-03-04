@@ -6,6 +6,11 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      redirect: { name: 'characters', params: { number: 1 } },
+    },
+    {
+      path: '/characters/:number',
+      name: 'characters',
       component: () => import('../views/Cards/Cards.vue'),
     },
     {

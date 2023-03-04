@@ -2,7 +2,7 @@
   <div>
     <Transition mode="out-in">
       <div v-if="loadingDone">
-        <img src="../../assets/images/Logo.png" class="_imageSize" />
+        <Logo />
         <CardsView :characters="charactersCard" />
       </div>
     </Transition>
@@ -16,6 +16,7 @@ import { connectApi } from '../../utils/connectApi';
 import type { Card } from '../../types/Cards';
 
 import CardsView from '@/components/Cards/CardsView.vue';
+import Logo from '@/components/Logo/Logo.vue';
 
 const count = ref(0);
 const pages = ref(0);
@@ -61,5 +62,3 @@ async function init() {
   });
 }
 </script>
-
-<style scoped lang="less" src="./Cards.less" />
