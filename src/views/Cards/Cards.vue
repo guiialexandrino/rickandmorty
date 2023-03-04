@@ -2,11 +2,9 @@
   <div>
     <Transition mode="out-in">
       <div v-if="loadingDone">
-        <img src="../../assets/images/Logo.png" class="imageSize" />
+        <img src="../../assets/images/Logo.png" class="_imageSize" />
         <br />
-        <p>{{ charactersEspecies }}</p>
-        <p>{{ count }}</p>
-        <p>{{ pages }}</p>
+        <CardsView :characters="charactersCard" />
         <br />
       </div>
     </Transition>
@@ -19,11 +17,12 @@ import { connectApi } from '../../utils/connectApi';
 
 import type { Card } from '../../types/Cards';
 
+import CardsView from '@/components/Cards/CardsView.vue';
+
 const count = ref(0);
 const pages = ref(0);
 const loadingDone = ref(false);
 const charactersCard = ref<Card[]>([]);
-const charactersEspecies = ref<string[]>([]);
 
 onMounted(() => {
   init();
@@ -46,7 +45,6 @@ async function init() {
           results {
             id
             name
-            species
             image
           }
         }`)
@@ -58,11 +56,6 @@ async function init() {
         array.data.characters.results.forEach((item: Card) => {
           charactersCard.value.push(item);
         });
-      });
-
-      charactersCard.value.forEach((card: Card) => {
-        if (!charactersEspecies.value.includes(card.species))
-          charactersEspecies.value.push(card.species);
       });
     });
 

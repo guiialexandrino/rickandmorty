@@ -1,13 +1,26 @@
 @import './animations.less';
 
+@font-face {
+  font-family: 'Conforta';
+  src: url('../fonts/Comfortaa-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Varela';
+  src: url('../fonts/VarelaRound-Regular.ttf');
+}
+
 :root {
   --primaryTextColor: rgba(255, 255, 255, 0.95);
   --headerColor: rgba(0, 0, 0, 0.8);
   --marginTop: 70px;
   --maxWidth: 1800px;
+  --greenColor: rgba(200, 221, 93, 1);
+  --blueColor: rgba(18, 176, 201, 1);
 }
 
 body {
+  font-family: 'Conforta', Arial, sans-serif;
   background-image: url('../images/pattern.png');
   background-repeat: repeat;
   background-color: black;
@@ -20,6 +33,7 @@ body {
 h1,
 h2,
 h3 {
+  font-family: 'Varela', Arial, sans-serif;
   margin: 0;
   padding: 10px 30px;
   background-color: rgba(0, 0, 0, 0.6);

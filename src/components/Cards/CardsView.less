@@ -1,0 +1,48 @@
+._structure {
+  gap: 20px;
+
+  ._cardView {
+    // background-color: pink;
+    max-width: 300px;
+    opacity: 0.7;
+    transition: all 500ms;
+    cursor: pointer;
+
+    ._avatar {
+      width: 250px;
+      height: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      transition: all 200ms;
+    }
+
+    ._name {
+      width: 300px;
+      h3 {
+        font-size: 1.6rem !important;
+        padding: 5px 20px;
+      }
+    }
+  }
+
+  ._cardView:hover {
+    opacity: 1;
+    transform: translateY(-12px);
+
+    ._avatar:hover {
+      outline: 7px solid var(--greenColor);
+    }
+
+    ._name {
+      h3 {
+        background-color: black;
+        color: var(--blueColor);
+      }
+    }
+  }
+}
