@@ -19,32 +19,33 @@
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue';
 import { ref, computed } from 'vue';
 
 import type ListCard from '../../types/Filter';
 
+const props = defineProps({
+  alphabetical: { type: Boolean, required: true },
+  listCards: { type: String as PropType<ListCard>, required: true },
+});
+
 const emit = defineEmits(['sortGrid', 'grid-view', 'list-view']);
 
-const alphabetical = ref(false);
-const listCards = ref<ListCard>('grid');
-
 function checkSelected(opt: ListCard) {
-  return listCards.value === opt ? '_icon _iconSelected' : '_icon';
+  return props.listCards === opt ? '_icon _iconSelected' : '_icon';
 }
 
 function changeCharactersView(opt: ListCard) {
-  listCards.value = opt;
   if (opt === 'grid') emit('grid-view');
   else emit('list-view');
 }
 
 function sortGrid() {
-  alphabetical.value = !alphabetical.value;
   emit('sortGrid');
 }
 
 const useAlphabetical = computed(() => {
-  return alphabetical.value ? '_icon _iconSelected' : '_icon';
+  return props.alphabetical ? '_icon _iconSelected' : '_icon';
 });
 </script>
 

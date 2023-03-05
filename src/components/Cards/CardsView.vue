@@ -55,6 +55,7 @@ import {
   watch,
 } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 import Nav from '../Nav/Nav.vue';
 
@@ -64,6 +65,7 @@ const props = defineProps({
 });
 const route = useRoute();
 const router = useRouter();
+const store = useStore();
 
 const cards = ref<HTMLDivElement | null>(null);
 const actualPage = ref(1);
@@ -97,6 +99,7 @@ onMounted(() => {
 });
 
 watch(actualPage, () => {
+  store.dispatch('updateActualPage', actualPage.value);
   const url = window.location.href.split('/');
   url.pop();
   const newPath = url.join('/') + `/${actualPage.value}`;

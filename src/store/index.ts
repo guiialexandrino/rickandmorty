@@ -2,17 +2,17 @@ import { createStore } from 'vuex';
 
 export default createStore({
   state: {
-    exemplo: false,
+    actualPage: 1,
   },
   getters: {},
   mutations: {
-    UPDATE_EXEMPLO(state, payload) {
-      state.exemplo = payload;
+    UPDATE_ACTUALPAGE(state, payload) {
+      state.actualPage = payload;
     },
   },
   actions: {
-    exemploChange(context, payload) {
-      context.commit('UPDATE_EXEMPLO', payload);
+    updateActualPage(context, payload) {
+      context.commit('UPDATE_ACTUALPAGE', payload);
     },
   },
   modules: {},

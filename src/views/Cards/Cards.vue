@@ -4,8 +4,10 @@
       <div v-if="loadingDone">
         <Logo />
         <FilterOptions
+          :alphabetical="sort"
+          :listCards="showCharactersInfo"
           @sort-grid="handleSortGrid"
-          @grid-view="showCharactersInfo = 'grid'"
+          @grid-view="handleSelectGrid"
           @list-view="showCharactersInfo = 'list'"
         />
         <CardsView
@@ -33,14 +35,19 @@ import CardsView from '@/components/Cards/CardsView.vue';
 import CardsList from '@/components/Cards/CardsList.vue';
 import Logo from '@/components/Logo/Logo.vue';
 import FilterOptions from '@/components/FilterOptions/FilterOptions.vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 const count = ref(0);
 const pages = ref(0);
 const loadingDone = ref(false);
-const sort = ref(false);
 const charactersCard = ref<Card[]>([]);
 const charactersBackup = ref<Card[]>([]);
+const sort = ref(false);
 const showCharactersInfo = ref<Filter>('grid');
+
+const router = useRouter();
+const store = useStore();
 
 onMounted(() => {
   init();
@@ -82,6 +89,17 @@ async function init() {
   });
 }
 
+router.beforeResolve((to, from) => {
+  if (showCharactersInfo.value === 'list') {
+    showCharactersInfo.value = 'grid';
+    sort.value = false;
+    router.replace({
+      name: 'characters',
+      params: { number: store.state.actualPage },
+    });
+  }
+});
+
 function handleSortGrid() {
   sort.value = !sort.value;
   if (sort.value) {
@@ -97,5 +115,13 @@ function handleSortGrid() {
   } else {
     charactersCard.value = [...charactersBackup.value];
   }
+}
+
+function handleSelectGrid() {
+  router.replace({
+    name: 'characters',
+    params: { number: store.state.actualPage },
+  });
+  showCharactersInfo.value = 'grid';
 }
 </script>
