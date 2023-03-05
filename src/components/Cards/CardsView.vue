@@ -1,6 +1,11 @@
 <template>
   <section>
-    <Nav @handle-click="actualPage = 1">Exibindo página {{ actualPage }}</Nav>
+    <Nav @handle-click="actualPage = 1">
+      Exibindo página {{ actualPage }}
+      <span class="q-ml-md text-h6">{{
+        sort ? '(Ordem alfabética)' : ''
+      }}</span>
+    </Nav>
     <div ref="cards" class="row q-py-md justify-center _structure">
       <div
         class="row justify-center _cardView"
@@ -55,6 +60,7 @@ import Nav from '../Nav/Nav.vue';
 
 const props = defineProps({
   characters: { type: Array as PropType<Card[]>, required: true },
+  sort: { type: Boolean, required: true },
 });
 const route = useRoute();
 const router = useRouter();
@@ -66,6 +72,9 @@ const maxPagesPagination = ref(20);
 const numberOfPages = ref(0);
 const showCards = computed(() => {
   return generatePagination([...props.characters]);
+});
+const sort = computed(() => {
+  return props.sort;
 });
 
 /*Hooks */
@@ -88,18 +97,17 @@ onMounted(() => {
 });
 
 watch(actualPage, () => {
-  if (cards.value) {
-    const url = window.location.href.split('/');
-    url.pop();
-    const newPath = url.join('/') + `/${actualPage.value}`;
-    window.history.pushState({}, '', new URL(newPath));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const url = window.location.href.split('/');
+  url.pop();
+  const newPath = url.join('/') + `/${actualPage.value}`;
+  window.history.pushState({}, '', new URL(newPath));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    cards.value.style.animation = 'fadeIn 1000ms';
-    setTimeout(() => {
-      if (cards.value) cards.value.style.animation = '';
-    }, 500);
-  }
+  fadeInCards();
+});
+
+watch(sort, () => {
+  fadeInCards();
 });
 
 router.beforeResolve((to, from) => {
@@ -136,6 +144,15 @@ function generateSizeName(name: String) {
   if (name.length > 18)
     return 'font-size: 1.25rem !important; line-height: 1.5rem !important';
   else return '';
+}
+
+function fadeInCards() {
+  if (cards.value) {
+    cards.value.style.animation = 'fadeIn 1000ms';
+    setTimeout(() => {
+      if (cards.value) cards.value.style.animation = '';
+    }, 500);
+  }
 }
 </script>
 

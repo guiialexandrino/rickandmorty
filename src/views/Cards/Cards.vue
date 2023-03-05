@@ -3,7 +3,8 @@
     <Transition mode="out-in">
       <div v-if="loadingDone">
         <Logo />
-        <CardsView :characters="charactersCard" />
+        <FilterOptions @sort-grid="handleSortGrid" />
+        <CardsView :characters="charactersCard" :sort="sort" />
       </div>
     </Transition>
   </div>
@@ -17,11 +18,14 @@ import type { Card } from '../../types/Cards';
 
 import CardsView from '@/components/Cards/CardsView.vue';
 import Logo from '@/components/Logo/Logo.vue';
+import FilterOptions from '@/components/FilterOptions/FilterOptions.vue';
 
 const count = ref(0);
 const pages = ref(0);
 const loadingDone = ref(false);
+const sort = ref(false);
 const charactersCard = ref<Card[]>([]);
+const charactersBackup = ref<Card[]>([]);
 
 onMounted(() => {
   init();
@@ -58,7 +62,25 @@ async function init() {
       });
     });
 
+    charactersBackup.value = [...charactersCard.value];
     loadingDone.value = true;
   });
+}
+
+function handleSortGrid() {
+  sort.value = !sort.value;
+  if (sort.value) {
+    charactersCard.value.sort((a: Card, b: Card) => {
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return -1;
+      }
+      return 0;
+    });
+  } else {
+    charactersCard.value = [...charactersBackup.value];
+  }
 }
 </script>

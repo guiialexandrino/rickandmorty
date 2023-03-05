@@ -1,7 +1,6 @@
 <template>
-  <div class="row q-my-xl text-h5">
-    <a @click="$emit('handleClick')">Personagens</a>
-    / <slot>Página</slot>
+  <div class="row q-my-xl q-mt-lg text-h5 items-end">
+    <a @click="$emit('handleClick')">Personagens</a> / <slot>Página</slot>
   </div>
 </template>
 

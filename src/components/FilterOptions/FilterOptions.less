@@ -1,0 +1,26 @@
+._icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 3px;
+  border: solid 1px white;
+  cursor: pointer;
+  transition: all 200ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 28px;
+    filter: invert(100%) sepia(0%) saturate(7454%) hue-rotate(45deg)
+      brightness(98%) contrast(96%);
+  }
+}
+
+._icon:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+._iconSelected {
+  background-color: var(--blueColor) !important;
+  border-color: var(--blueColor) !important;
+}
