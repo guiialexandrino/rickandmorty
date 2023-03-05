@@ -1,10 +1,26 @@
 <template>
-  <div>
+  <div class="_minHeight_">
     <Transition mode="out-in">
       <div v-if="loadingDone">
         <Logo />
-        <FilterOptions @sort-grid="handleSortGrid" />
-        <CardsView :characters="charactersCard" :sort="sort" />
+        <FilterOptions
+          @sort-grid="handleSortGrid"
+          @grid-view="showCharactersInfo = 'grid'"
+          @list-view="showCharactersInfo = 'list'"
+        />
+        <Transition mode="out-in">
+          <CardsView
+            v-if="showCharactersInfo === 'grid'"
+            :characters="charactersCard"
+            :sort="sort"
+          />
+        </Transition>
+        <Transition mode="out-in">
+          <CardsList
+            v-if="showCharactersInfo === 'list'"
+            :characters="charactersCard"
+          />
+        </Transition>
       </div>
     </Transition>
   </div>
@@ -15,8 +31,10 @@ import { onMounted, ref } from 'vue';
 import { connectApi } from '../../utils/connectApi';
 
 import type { Card } from '../../types/Cards';
+import type Filter from '../../types/Filter';
 
 import CardsView from '@/components/Cards/CardsView.vue';
+import CardsList from '@/components/Cards/CardsList.vue';
 import Logo from '@/components/Logo/Logo.vue';
 import FilterOptions from '@/components/FilterOptions/FilterOptions.vue';
 
@@ -26,6 +44,7 @@ const loadingDone = ref(false);
 const sort = ref(false);
 const charactersCard = ref<Card[]>([]);
 const charactersBackup = ref<Card[]>([]);
+const showCharactersInfo = ref<Filter>('grid');
 
 onMounted(() => {
   init();
