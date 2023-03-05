@@ -8,19 +8,15 @@
           @grid-view="showCharactersInfo = 'grid'"
           @list-view="showCharactersInfo = 'list'"
         />
-        <Transition mode="out-in">
-          <CardsView
-            v-if="showCharactersInfo === 'grid'"
-            :characters="charactersCard"
-            :sort="sort"
-          />
-        </Transition>
-        <Transition mode="out-in">
-          <CardsList
-            v-if="showCharactersInfo === 'list'"
-            :characters="charactersCard"
-          />
-        </Transition>
+        <CardsView
+          v-if="showCharactersInfo === 'grid'"
+          :characters="charactersCard"
+          :sort="sort"
+        />
+        <CardsList
+          v-if="showCharactersInfo === 'list'"
+          :characters="charactersCard"
+        />
       </div>
     </Transition>
   </div>
