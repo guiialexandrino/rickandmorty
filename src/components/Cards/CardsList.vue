@@ -116,7 +116,7 @@ function backToTop() {
 }
 
 function goToCharPage(id: string) {
-  router.push({ name: 'character', params: { id: id } });
+  if (id) router.push({ name: 'character', params: { id: id } });
 }
 
 onBeforeMount(() => {

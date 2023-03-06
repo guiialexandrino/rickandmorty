@@ -75,7 +75,8 @@ const maxPerPage = ref(15);
 const maxPagesPagination = ref(20);
 const numberOfPages = ref(0);
 const showCards = computed(() => {
-  return generatePagination([...props.characters]);
+  const chars = [...props.characters];
+  return generatePagination(chars);
 });
 const sort = computed(() => {
   return props.sort;
@@ -93,9 +94,11 @@ onUnmounted(() => {
 
 onMounted(() => {
   const page = Number(route.params.number);
+  console.log('MONTANDO CARDSVIEW (FILHO)', page, store.state.actualPage);
   if (page && page <= numberOfPages.value) {
     actualPage.value = page;
   } else {
+    console.log('cai aqui erro');
     router.push({ name: 'home' });
   }
   paginationLimit();
@@ -123,7 +126,8 @@ router.beforeResolve((to, from) => {
 /* Functions */
 
 function goToCharacterDetails(id: string) {
-  router.push({ name: 'character', params: { id: id } });
+  if (id) router.push({ name: 'character', params: { id: id } });
+  else console.log('deu erro');
 }
 
 function generatePagination(characters: Card[]) {
