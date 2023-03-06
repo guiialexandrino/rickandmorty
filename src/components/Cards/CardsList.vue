@@ -30,7 +30,7 @@
           class="text-subtitle1 _char"
           v-for="char in identificator.characters"
         >
-          <span>
+          <span @click="goToCharPage(char.id)">
             {{ splitString ? `${char.name.substring(0, 10)}...` : char.name }}
           </span>
         </li>
@@ -113,6 +113,10 @@ function goTo(id: any) {
 
 function backToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function goToCharPage(id: string) {
+  router.push({ name: 'character', params: { id: id } });
 }
 
 onBeforeMount(() => {

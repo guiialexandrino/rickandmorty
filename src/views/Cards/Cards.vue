@@ -49,9 +49,6 @@ const charactersCard = ref<Card[]>([]);
 const charactersBackup = ref<Card[]>([]);
 const sort = ref(false);
 const showCharactersInfo = ref<Filter>('grid');
-const loadingProcess = computed(() => {
-  return store.state.loadingProcess;
-});
 const loadingValueProcess = ref(0);
 
 const router = useRouter();
@@ -112,7 +109,8 @@ async function init() {
 }
 
 router.beforeResolve((to, from) => {
-  if (showCharactersInfo.value === 'list') {
+  if (showCharactersInfo.value === 'list' && to.name !== 'character') {
+    console.log('caiu aqui vixi');
     showCharactersInfo.value = 'grid';
     sort.value = false;
     router.replace({

@@ -11,6 +11,7 @@
         class="row justify-center _cardView"
         v-for="card in showCards"
         :key="card.id"
+        @click="router.push({ name: 'character', params: { id: card.id } })"
       >
         <div
           class="_avatar"
