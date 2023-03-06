@@ -1,11 +1,10 @@
 <template>
-  {{ store.state.actualPage }}
   <Transition>
     <Loading v-if="isLoading" />
   </Transition>
   <Header />
   <div class="row justify-center items-center _contentHeight_">
-    <div class="col q-px-md q-pb-xl _content_">
+    <div class="col q-px-md _content_">
       <RouterView v-slot="{ Component }">
         <Transition mode="out-in">
           <Component :is="Component" />
