@@ -3,6 +3,9 @@
     <Transition mode="out-in">
       <div v-if="loadingDone">
         <Logo />
+        <div class="row justify-center q-my-lg">
+          <Search />
+        </div>
         <FilterOptions
           :alphabetical="sort"
           :listCards="showCharactersInfo"
@@ -26,6 +29,8 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { onMounted, ref, computed } from 'vue';
 import { connectApi } from '../../utils/connectApi';
 
@@ -36,8 +41,7 @@ import CardsView from '@/components/Cards/CardsView.vue';
 import CardsList from '@/components/Cards/CardsList.vue';
 import Logo from '@/components/Logo/Logo.vue';
 import FilterOptions from '@/components/FilterOptions/FilterOptions.vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import Search from '@/components/Search/Search.vue';
 
 const count = ref(0);
 const pages = ref(0);
