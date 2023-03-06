@@ -89,7 +89,7 @@ async function init() {
     });
 
     charactersBackup.value = [...charactersCard.value];
-    loadingDone.value = true;
+    // loadingDone.value = true;
   });
 }
 

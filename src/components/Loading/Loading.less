@@ -1,0 +1,52 @@
+._loadingContainer {
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  z-index: 100;
+
+  .images {
+    position: relative;
+    // animation: scaling 4s ease-in-out infinite;
+
+    .img1 {
+      animation: loading 3s linear infinite;
+    }
+
+    .img2 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      animation: loading 8s linear infinite;
+      animation-delay: 500ms;
+    }
+
+    .percent {
+      position: absolute;
+      bottom: 37%;
+      left: 15%;
+      z-index: 11;
+    }
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes loading2 {
+  0% {
+    transform: rotate(-360deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
