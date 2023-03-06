@@ -93,12 +93,10 @@ onUnmounted(() => {
 });
 
 onMounted(() => {
-  const page = Number(route.params.number);
-  console.log('MONTANDO CARDSVIEW (FILHO)', page, store.state.actualPage);
+  const page = store.state.actualPage;
   if (page && page <= numberOfPages.value) {
     actualPage.value = page;
   } else {
-    console.log('cai aqui erro');
     router.push({ name: 'home' });
   }
   paginationLimit();
