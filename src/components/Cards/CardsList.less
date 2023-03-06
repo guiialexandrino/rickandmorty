@@ -1,14 +1,11 @@
 ._listChars {
-  word-break: break-all !important;
-  // white-space: pre !important;
-
   span {
     margin: 0 10px;
     background-color: rgba(0, 0, 0, 0.8);
     padding: 15px;
     cursor: pointer;
     user-select: none;
-    // transition: all 500ms;
+    border-radius: 5px;
   }
 
   span:hover {
@@ -20,4 +17,51 @@
   ._char {
     line-height: 4rem;
   }
+
+  ul {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    text-align: center;
+    padding: 3px 0;
+    min-width: 160px;
+  }
+}
+
+._index {
+  word-wrap: break-word;
+  max-width: 1200px;
+  user-select: none;
+  gap: 5px;
+
+  strong {
+    cursor: pointer;
+    padding: 10px;
+  }
+
+  strong:hover {
+    color: var(--blueColor);
+    background-color: var(--greenColor);
+    border-radius: 5px;
+    transition: all 100ms;
+  }
+}
+
+._selected {
+  color: var(--blueColor) !important;
+  background-color: var(--greenColor) !important;
+  border-radius: 5px;
+}
+
+._backToTop {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  animation: bounce 3s infinite ease-in-out;
+  z-index: 10;
 }

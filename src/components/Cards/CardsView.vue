@@ -28,7 +28,8 @@
           :max="numberOfPages"
           :max-pages="maxPagesPagination"
           color="white"
-          active-color="primary"
+          active-color="secondary"
+          active-text-color="primary"
           size="18px"
           boundary-numbers
           boundary-links
@@ -69,7 +70,7 @@ const store = useStore();
 
 const cards = ref<HTMLDivElement | null>(null);
 const actualPage = ref(1);
-const maxPerPage = ref(20);
+const maxPerPage = ref(15);
 const maxPagesPagination = ref(20);
 const numberOfPages = ref(0);
 const showCards = computed(() => {
@@ -96,6 +97,7 @@ onMounted(() => {
   } else {
     router.push({ name: 'home' });
   }
+  paginationLimit();
 });
 
 watch(actualPage, () => {
@@ -135,10 +137,10 @@ function generatePagination(characters: Card[]) {
 
 function paginationLimit() {
   if (window.innerWidth < 1000) {
-    maxPerPage.value = 10;
+    maxPerPage.value = 5;
     maxPagesPagination.value = 5;
   } else {
-    maxPerPage.value = 20;
+    maxPerPage.value = 15;
     maxPagesPagination.value = 20;
   }
 }

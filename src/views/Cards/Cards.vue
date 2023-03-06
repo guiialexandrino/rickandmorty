@@ -10,15 +10,19 @@
           @grid-view="handleSelectGrid"
           @list-view="showCharactersInfo = 'list'"
         />
-        <CardsView
-          v-if="showCharactersInfo === 'grid'"
-          :characters="charactersCard"
-          :sort="sort"
-        />
-        <CardsList
-          v-if="showCharactersInfo === 'list'"
-          :characters="charactersCard"
-        />
+        <Transition>
+          <CardsView
+            v-if="showCharactersInfo === 'grid'"
+            :characters="charactersCard"
+            :sort="sort"
+          />
+        </Transition>
+        <Transition>
+          <CardsList
+            v-if="showCharactersInfo === 'list'"
+            :characters="charactersCard"
+          />
+        </Transition>
       </div>
     </Transition>
   </div>
