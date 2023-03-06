@@ -3,7 +3,7 @@
     <div class="images">
       <img class="img1" src="../../assets/images/Loading.png" />
       <img class="img2" src="../../assets/images/Loading2.png" />
-      <h1 class="percent">001%</h1>
+      <h2 class="percent">001%</h2>
     </div>
   </div>
 </template>

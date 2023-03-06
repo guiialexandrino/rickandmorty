@@ -12,6 +12,7 @@
 
     .img1 {
       animation: loading 3s linear infinite;
+      z-index: 2;
     }
 
     .img2 {
@@ -23,11 +24,20 @@
       animation-delay: 500ms;
     }
 
+    .label {
+      position: absolute;
+      top: -23%;
+      left: 14%;
+      z-index: 11;
+      animation: blink 2s linear infinite;
+    }
+
     .percent {
       position: absolute;
-      bottom: 37%;
-      left: 15%;
-      z-index: 11;
+      bottom: -15%;
+      left: 26%;
+      z-index: -1;
+      // animation: blink 1s linear infinite;
     }
   }
 }
