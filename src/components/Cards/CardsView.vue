@@ -1,9 +1,9 @@
 <template>
   <section v-if="actualPage">
     <Nav @handle-click="actualPage = 1">
-      Exibindo página {{ actualPage }}
+      Showing page {{ actualPage }}
       <span class="q-ml-md text-h6">{{
-        sort ? '(Ordem alfabética)' : ''
+        sort ? '(Alphabetical order)' : ''
       }}</span>
     </Nav>
     <div ref="cards" class="row q-py-md justify-center _structure">
@@ -39,7 +39,7 @@
         />
       </div>
       <div class="col-12 text-h6 q-mt-md">
-        Exibindo página {{ actualPage }} de {{ numberOfPages }}
+        Showing page {{ actualPage }} of {{ numberOfPages }}
       </div>
     </div>
   </section>

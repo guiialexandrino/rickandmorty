@@ -1,6 +1,6 @@
 <template>
   <div class="row q-my-xl q-mt-lg text-h5 items-end">
-    <a @click="$emit('handleClick')">Personagens</a> / <slot>Página</slot>
+    <a @click="$emit('handleClick')">Characters</a> / <slot>Page</slot>
   </div>
 </template>
 
