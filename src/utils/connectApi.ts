@@ -1,4 +1,8 @@
-export function connectApi(query: string) {
+interface callback {
+  (myArgument: void): void;
+}
+
+export function connectApi(query: string, doSomething?: callback) {
   return fetch('https://rickandmortyapi.com/graphql', {
     method: 'POST',
     headers: {
@@ -10,5 +14,10 @@ export function connectApi(query: string) {
         ${query}
       }`,
     }),
-  }).then((res) => res.json());
+  }).then((res) => {
+    if (doSomething) {
+      doSomething();
+    }
+    return res.json();
+  });
 }

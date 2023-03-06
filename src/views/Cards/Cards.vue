@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { connectApi } from '../../utils/connectApi';
 
 import type { Card } from '../../types/Cards';
@@ -49,6 +49,10 @@ const charactersCard = ref<Card[]>([]);
 const charactersBackup = ref<Card[]>([]);
 const sort = ref(false);
 const showCharactersInfo = ref<Filter>('grid');
+const loadingProcess = computed(() => {
+  return store.state.loadingProcess;
+});
+const loadingValueProcess = ref(0);
 
 const router = useRouter();
 const store = useStore();
@@ -58,6 +62,7 @@ onMounted(() => {
 });
 
 async function init() {
+  store.dispatch('loadingInit');
   connectApi(`characters{
     info {
       count
@@ -70,13 +75,24 @@ async function init() {
 
     for (let i = 1; i <= pages.value; i++) {
       charactersPromises.push(
-        connectApi(`characters(page: ${i}){
+        connectApi(
+          `characters(page: ${i}){
           results {
             id
             name
             image
           }
-        }`)
+        }`,
+          () => {
+            loadingValueProcess.value = loadingValueProcess.value + 1;
+
+            const updateLoading = Math.round(
+              (loadingValueProcess.value / pages.value) * 100
+            );
+
+            store.dispatch('updateLoadingProcess', updateLoading);
+          }
+        )
       );
     }
 
@@ -89,7 +105,9 @@ async function init() {
     });
 
     charactersBackup.value = [...charactersCard.value];
-    // loadingDone.value = true;
+    store.dispatch('loadingDone');
+    store.dispatch('updateLoadingProcess', 0);
+    loadingDone.value = true;
   });
 }
 
