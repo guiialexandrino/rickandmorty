@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section v-if="actualPage">
     <Nav @handle-click="actualPage = 1">
       Exibindo página {{ actualPage }}
       <span class="q-ml-md text-h6">{{
@@ -11,7 +11,7 @@
         class="row justify-center _cardView"
         v-for="card in showCards"
         :key="card.id"
-        @click="router.push({ name: 'character', params: { id: card.id } })"
+        @click="goToCharacterDetails(card.id)"
       >
         <div
           class="_avatar"
@@ -102,7 +102,7 @@ onMounted(() => {
 });
 
 watch(actualPage, () => {
-  store.dispatch('updateActualPage', actualPage.value);
+  if (actualPage.value) store.dispatch('updateActualPage', actualPage.value);
   const url = window.location.href.split('/');
   url.pop();
   const newPath = url.join('/') + `/${actualPage.value}`;
@@ -121,6 +121,10 @@ router.beforeResolve((to, from) => {
 });
 
 /* Functions */
+
+function goToCharacterDetails(id: string) {
+  router.push({ name: 'character', params: { id: id } });
+}
 
 function generatePagination(characters: Card[]) {
   let content = [];
