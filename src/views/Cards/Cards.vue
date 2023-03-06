@@ -13,15 +13,12 @@
         <Transition>
           <CardsView
             v-if="showCharactersInfo === 'grid'"
-            :characters="charactersCard"
+            :characters="chars"
             :sort="sort"
           />
         </Transition>
         <Transition>
-          <CardsList
-            v-if="showCharactersInfo === 'list'"
-            :characters="charactersCard"
-          />
+          <CardsList v-if="showCharactersInfo === 'list'" :characters="chars" />
         </Transition>
       </div>
     </Transition>
@@ -45,16 +42,28 @@ import { useStore } from 'vuex';
 const count = ref(0);
 const pages = ref(0);
 const loadingDone = ref(false);
-const charactersCard = ref<Card[]>([]);
 const charactersBackup = ref<Card[]>([]);
 const sort = ref(false);
 const showCharactersInfo = ref<Filter>('grid');
 const loadingValueProcess = ref(0);
+const charactersCard = ref<Card[]>([]); //only inside Component
+const chars = computed(() => {
+  return store.state.characters;
+});
+const charsBackup = computed(() => {
+  return store.state.charactersBackup;
+});
 
 const router = useRouter();
 const store = useStore();
 
 onMounted(() => {
+  if (chars.value.length > 0) {
+    loadingDone.value = true;
+    charactersCard.value = [...chars.value];
+    // charactersBackup.value = [...chars.value];
+    return;
+  }
   init();
 });
 
@@ -101,7 +110,9 @@ async function init() {
       });
     });
 
-    charactersBackup.value = [...charactersCard.value];
+    // charactersBackup.value = [...charactersCard.value];
+    store.dispatch('updateChars', [...charactersCard.value]);
+    store.dispatch('updateCharsBackup', [...charactersCard.value]);
     store.dispatch('loadingDone');
     store.dispatch('updateLoadingProcess', 0);
     loadingDone.value = true;
@@ -110,7 +121,6 @@ async function init() {
 
 router.beforeResolve((to, from) => {
   if (showCharactersInfo.value === 'list' && to.name !== 'character') {
-    console.log('caiu aqui vixi');
     showCharactersInfo.value = 'grid';
     sort.value = false;
     router.replace({
@@ -132,8 +142,10 @@ function handleSortGrid() {
       }
       return 0;
     });
+    store.dispatch('updateChars', [...charactersCard.value]);
   } else {
-    charactersCard.value = [...charactersBackup.value];
+    // charactersCard.value = [...charactersBackup.value];
+    store.dispatch('updateChars', [...charsBackup.value]);
   }
 }
 

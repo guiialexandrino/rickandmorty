@@ -1,4 +1,5 @@
 <template>
+  {{ store.state.actualPage }}
   <Transition>
     <Loading v-if="isLoading" />
   </Transition>
