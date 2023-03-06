@@ -5,7 +5,7 @@
       <Nav @handle-click="backToCharacters"> {{ navTitle }}</Nav>
       <div v-if="notFoundError" class="q-pt-xl _error">
         <div ref="notFound" class="_error">
-          <h3>Ops.. não foi possível encontrar esse personagem! :(</h3>
+          <h3>Oops.. could not find this character! :(</h3>
         </div>
       </div>
       <div v-else class="_charInfo row justify-center items-center">
@@ -108,7 +108,7 @@ const actualPage = computed(() => {
   return store.state.actualPage;
 });
 const navTitle = computed(() => {
-  if (notFoundError.value) return 'Não encontrado';
+  if (notFoundError.value) return 'Not found';
   else return char.value?.name;
 });
 
