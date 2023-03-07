@@ -1,0 +1,87 @@
+.search {
+  position: relative;
+}
+
+.search-icon {
+  position: relative;
+}
+
+.search-icon:after {
+  content: '';
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  background-image: url('../../assets/images/search.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: translateY(-50%);
+  display: block;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/*Input and auto suggest*/
+
+input {
+  padding: 15px;
+  font-size: 1.1rem;
+  border: solid 1px white;
+  width: 280px;
+  color: white !important;
+  border-radius: 10px;
+  padding-left: 30px;
+  padding-right: 63px;
+  text-align: center;
+  background-color: black;
+}
+
+input::-webkit-calendar-picker-indicator {
+  opacity: 0;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 15px;
+}
+
+.list {
+  opacity: 0.97;
+  position: absolute;
+  width: 100%;
+  background-color: black;
+  z-index: 2020;
+  border-radius: 10px;
+}
+
+.list-items {
+  padding: 10px 5px !important;
+}
+
+.list-items:before {
+  content: '';
+  position: absolute;
+  top: -11px;
+  right: 48%;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid black;
+  z-index: 1;
+}
+
+.list-items:hover {
+  color: var(--blueColor);
+  background-color: var(--greenColor);
+}
+
+.list-items:hover:first-child {
+  border-radius: 10px 10px 0 0;
+}
+
+.list-items:hover:last-child {
+  border-radius: 0 0 10px 10px;
+}
