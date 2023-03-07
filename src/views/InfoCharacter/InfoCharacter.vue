@@ -4,13 +4,16 @@
     <div class="row justify-center q-my-lg">
       <Search />
     </div>
+
     <section>
       <Nav @handle-click="backToCharacters"> {{ navTitle }}</Nav>
+
       <div v-if="notFoundError" class="q-pt-xl _error">
         <div ref="notFound" class="_error">
           <h3>Oops.. could not find this character! :(</h3>
         </div>
       </div>
+
       <div v-else class="_charInfo row justify-center items-center">
         <div
           class="col-12 q-mb-md _img"
@@ -19,6 +22,7 @@
         <div class="col-12">
           <h3># {{ char?.name }}</h3>
         </div>
+
         <div class="col-12 maxInfo">
           <div class="row q-mt-xs q-mb-lg q-gutter-y-lg justify-center">
             <!-- Info  -->
@@ -43,6 +47,7 @@
               <br />
               <span>{{ char?.type ? char.type : '-' }}</span>
             </div>
+
             <!-- Origin  -->
             <div class="col-12"><h4>Origin</h4></div>
             <div
@@ -55,6 +60,7 @@
               <br />
               <span>{{ origin ? origin : '-' }}</span>
             </div>
+
             <!-- Location  -->
             <div class="col-12"><h4>Last know location</h4></div>
             <div
@@ -67,6 +73,7 @@
               <br />
               <span>{{ location ? location : '-' }}</span>
             </div>
+
             <!-- Episodes  -->
             <div class="col-12"><h4>Appears in the eps</h4></div>
             <div class="col-12">

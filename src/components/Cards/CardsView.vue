@@ -6,6 +6,7 @@
         sort ? '(Alphabetical order)' : ''
       }}</span>
     </Nav>
+
     <div ref="cards" class="row q-py-md justify-center _structure">
       <div
         class="row justify-center _cardView"
@@ -22,6 +23,7 @@
         </div>
       </div>
     </div>
+
     <div class="column q-my-xl items-center">
       <div class="col-12">
         <q-pagination
