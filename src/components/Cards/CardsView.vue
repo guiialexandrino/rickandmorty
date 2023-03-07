@@ -31,14 +31,14 @@
           color="white"
           active-color="secondary"
           active-text-color="primary"
-          size="18px"
+          size="17px"
           boundary-numbers
           boundary-links
           icon-first="chevron_left"
           icon-last="chevron_right"
         />
       </div>
-      <div class="col-12 text-h6 q-mt-md">
+      <div class="col-12 text-body1 q-mt-md">
         Showing page {{ actualPage }} of {{ numberOfPages }}
       </div>
     </div>
@@ -65,7 +65,6 @@ const props = defineProps({
   characters: { type: Array as PropType<Card[]>, required: true },
   sort: { type: Boolean, required: true },
 });
-const route = useRoute();
 const router = useRouter();
 const store = useStore();
 
