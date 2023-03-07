@@ -16,10 +16,12 @@
 <script setup lang="ts">
 import type { Card } from '@/types/Cards';
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import ClickOutside from './ClickOutside';
 
 const store = useStore();
+const router = useRouter();
 
 const model = ref<Card>({ name: '', id: '', image: '' });
 const list = ref<HTMLUListElement | null>(null);
@@ -89,7 +91,7 @@ function displayNames(value: Card) {
   );
 
   chars.value = showSearch;
-  console.log(model.value);
+  router.push({ name: 'character', params: { id: model.value.id } });
 
   removeElements();
 }
