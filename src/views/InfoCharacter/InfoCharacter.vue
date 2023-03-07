@@ -1,6 +1,9 @@
 <template>
   <div v-if="loadingDone" class="_minHeight_">
     <Logo />
+    <div class="row justify-center q-my-lg">
+      <Search />
+    </div>
     <section>
       <Nav @handle-click="backToCharacters"> {{ navTitle }}</Nav>
       <div v-if="notFoundError" class="q-pt-xl _error">
@@ -87,11 +90,12 @@
 
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { connectApi } from '../../utils/connectApi';
 
 import Logo from '@/components/Logo/Logo.vue';
 import Nav from '@/components/Nav/Nav.vue';
+import Search from '@/components/Search/Search.vue';
 import { useStore } from 'vuex';
 
 import type { Character } from '../../types/Character';
@@ -112,10 +116,21 @@ const navTitle = computed(() => {
   else return char.value?.name;
 });
 
+const currentChar = computed(() => {
+  return route.params.id;
+});
+
+watch(currentChar, () => {
+  if (route.name === 'character') {
+    loadingDone.value = false;
+    loadCharInfo();
+  }
+});
+
 const char = ref<Character>();
 
 onMounted(() => {
-  loadCharInfo();
+  if (route.params.id) loadCharInfo();
 });
 
 function loadCharInfo() {
@@ -148,7 +163,6 @@ function loadCharInfo() {
   }`)
     .then((result) => {
       if (result.data.character === null) throw Error;
-      console.log(result.data.character);
       char.value = result.data.character;
       store.dispatch('loadingDone');
       store.dispatch('updateLoadingShowProcess', true);

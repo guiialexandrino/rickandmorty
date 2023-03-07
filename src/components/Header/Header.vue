@@ -3,7 +3,7 @@
     <div class="col q-px-md _nav">
       <div class="row items-center justify-between">
         <img src="../../assets/images/LogoHeader3.png" />
-        <span>busca</span>
+        <Search />
       </div>
     </div>
   </header>
@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import Search from '../Search/Search.vue';
 
 const header = ref<HTMLDivElement | null>(null);
 
