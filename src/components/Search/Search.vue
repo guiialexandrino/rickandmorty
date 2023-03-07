@@ -15,25 +15,41 @@
 
 <script setup lang="ts">
 import type { Card } from '@/types/Cards';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { useQuasar } from 'quasar';
 import ClickOutside from './ClickOutside';
 
 const store = useStore();
+const $q = useQuasar();
 const router = useRouter();
 
 const model = ref<Card>({ name: '', id: '', image: '' });
 const list = ref<HTMLUListElement | null>(null);
 const component = ref<HTMLDivElement | null>(null);
+
 ClickOutside(component, () => {
   removeElements();
 });
 
-let newArray = [...store.state.characters];
+// let newArray = [...store.state.characters];
+const newArray = computed(() => {
+  return [...store.state.characters];
+});
+
+onMounted(() => {
+  const data: any = $q.sessionStorage.getItem('chars');
+  let chars = [];
+  if (data) {
+    chars = [...data];
+    store.dispatch('updateChars', [...chars]);
+    store.dispatch('updateCharsBackup', [...chars]);
+  }
+});
 
 const filterOptions = computed(() => {
-  return newArray.map((char: Card) => {
+  return newArray.value.map((char: Card) => {
     return {
       name: `${char.name} - #${char.id}`,
       id: char.id,

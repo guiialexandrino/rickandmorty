@@ -33,6 +33,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { onMounted, ref, computed } from 'vue';
 import { connectApi } from '../../utils/connectApi';
+import { useQuasar } from 'quasar';
 
 import type { Card } from '../../types/Cards';
 import type Filter from '../../types/Filter';
@@ -43,10 +44,10 @@ import Logo from '@/components/Logo/Logo.vue';
 import FilterOptions from '@/components/FilterOptions/FilterOptions.vue';
 import Search from '@/components/Search/Search.vue';
 
+const $q = useQuasar();
 const count = ref(0);
 const pages = ref(0);
 const loadingDone = ref(false);
-const charactersBackup = ref<Card[]>([]);
 const sort = ref(false);
 const showCharactersInfo = ref<Filter>('grid');
 const loadingValueProcess = ref(0);
@@ -114,7 +115,7 @@ async function init() {
       });
     });
 
-    // charactersBackup.value = [...charactersCard.value];
+    $q.sessionStorage.set('chars', [...charactersCard.value]);
     store.dispatch('updateChars', [...charactersCard.value]);
     store.dispatch('updateCharsBackup', [...charactersCard.value]);
     store.dispatch('loadingDone');
