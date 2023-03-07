@@ -1,7 +1,9 @@
 # rickandmorty
 
 Project using vue3 + typescript + quasar + api (graphQL) 🚀🚀🚀
+
 A funny project about Rick and Morty Characters.
+
 This project consumed an API:
 https://rickandmortyapi.com/
 
