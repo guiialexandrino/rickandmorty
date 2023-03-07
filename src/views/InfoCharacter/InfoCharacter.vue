@@ -56,7 +56,7 @@
               <span>{{ origin ? origin : '-' }}</span>
             </div>
             <!-- Location  -->
-            <div class="col-12"><h4>Location</h4></div>
+            <div class="col-12"><h4>Last know location</h4></div>
             <div
               v-for="(location, attribute) in char?.location"
               class="col-xs-12 col-sm-4 col-md-3 col-lg-3 col-xl-3"
@@ -69,6 +69,9 @@
             </div>
             <!-- Episodes  -->
             <div class="col-12"><h4>Appears in the eps</h4></div>
+            <div class="col-12">
+              To see the name of episode, hover the mouse over the episode tag.
+            </div>
             <ul>
               <li v-for="ep in char?.episode">
                 <span>

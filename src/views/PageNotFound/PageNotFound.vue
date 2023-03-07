@@ -2,7 +2,7 @@
   <div>
     <h3>
       <p>Ops...</p>
-      Página não encontrada :(
+      Page not found :(
     </h3>
   </div>
 </template>

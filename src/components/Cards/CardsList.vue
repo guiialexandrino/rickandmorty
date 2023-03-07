@@ -1,7 +1,7 @@
 <template>
   <section>
-    <Nav @handle-click="backToCharacters"> Exibindo Lista</Nav>
-    <h6>Click na letra desejada:</h6>
+    <Nav @handle-click="backToCharacters"> Showing all</Nav>
+    <h6>Click in desired letter:</h6>
     <div class="row q-pb-xl justify-center text-h3">
       <div class="row q-gutter-lg justify-center _index">
         <span v-for="(identificator, index) in list" :key="index">
