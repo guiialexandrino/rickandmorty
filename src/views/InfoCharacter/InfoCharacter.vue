@@ -12,7 +12,10 @@
         </div>
       </div>
       <div v-else class="_charInfo row justify-center items-center">
-        <div class="col-12 q-mb-md"><img :src="char?.image" /></div>
+        <div
+          class="col-12 q-mb-md _img"
+          :style="`background-image: url('${char?.image}')`"
+        ></div>
         <div class="col-12">
           <h3># {{ char?.name }}</h3>
         </div>
