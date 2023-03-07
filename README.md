@@ -7,6 +7,10 @@ A funny project about Rick and Morty Characters.
 This project consumed an API:
 https://rickandmortyapi.com/
 
+You can check a preview for this application here:
+https://alexandrino-rick-and-morty.netlify.app/
+
+
 ## Project Setup
 
 ```sh
