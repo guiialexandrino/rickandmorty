@@ -123,7 +123,8 @@ router.beforeResolve((to, from) => {
 /* Functions */
 
 function goToCharacterDetails(id: string) {
-  if (id) router.push({ name: 'character', params: { id: id } });
+  if (id && id !== undefined)
+    router.push({ name: 'character', params: { id: id } });
   else console.log('deu erro');
 }
 
