@@ -16,7 +16,7 @@
         <Transition mode="out-in">
           <CardsList
             v-if="showCharactersInfo === 'list'"
-            :characters="charactersCard"
+            :characters="charsBackup"
           />
         </Transition>
         <Transition mode="out-in">
@@ -56,6 +56,12 @@ const charactersCard = computed(() => {
 const charsBackup = computed(() => {
   return store.state.charactersBackup;
 });
+const search = computed(() => {
+  return store.state.search;
+});
+const searchBackup = computed(() => {
+  return store.state.searchCard;
+});
 
 const router = useRouter();
 const store = useStore();
@@ -74,6 +80,7 @@ router.beforeResolve((to, from) => {
 function handleSortGrid() {
   store.dispatch('updateSortPage', !sort.value);
   if (sort.value) {
+    console.log('entra aqui para .sort');
     const sorted = charactersCard.value.sort((a: Card, b: Card) => {
       if (a.name > b.name) {
         return 1;
@@ -85,8 +92,10 @@ function handleSortGrid() {
     });
     store.dispatch('updateChars', [...sorted]);
   } else {
-    // charactersCard.value = [...charactersBackup.value];
-    store.dispatch('updateChars', [...charsBackup.value]);
+    if (!search.value) store.dispatch('updateChars', [...charsBackup.value]);
+    else {
+      store.dispatch('updateChars', [...searchBackup.value]);
+    }
   }
 }
 

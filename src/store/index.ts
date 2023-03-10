@@ -10,6 +10,8 @@ export default createStore({
     charactersBackup: [] as Card[],
     actualPage: 1,
     sortValue: false,
+    search: false,
+    searchCard: [] as Card[],
   },
   getters: {},
   mutations: {
@@ -33,6 +35,12 @@ export default createStore({
     },
     UPDATE_SORTVALUE(state, payload: boolean) {
       state.sortValue = payload;
+    },
+    UPDATE_SEARCH(state, payload: boolean) {
+      state.search = payload;
+    },
+    UPDATE_SEARCHCARD(state, payload: Card[]) {
+      state.searchCard = payload;
     },
   },
   actions: {
@@ -58,6 +66,14 @@ export default createStore({
 
     updateCharsBackup(context, payload: Card[]) {
       context.commit('UPDATE_CHARSBACKUP', payload);
+    },
+
+    updateSearch(context, payload: boolean) {
+      context.commit('UPDATE_SEARCH', payload);
+    },
+
+    updateSearchCard(context, payload: Card[]) {
+      context.commit('UPDATE_SEARCHCARD', payload);
     },
 
     updateActualPage(context, payload: number) {

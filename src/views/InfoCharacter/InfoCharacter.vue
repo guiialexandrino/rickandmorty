@@ -120,18 +120,33 @@ const store = useStore();
 const loadingDone = ref(false);
 const notFound = ref<HTMLDivElement | null>(null);
 const notFoundError = ref(false);
+const char = ref<Character>();
 
 const actualPage = computed(() => {
   return store.state.actualPage;
 });
+
 const navTitle = computed(() => {
   if (notFoundError.value) return 'Not found';
   else return char.value?.name;
 });
 
+const characters = computed(() => {
+  return store.state.characters;
+});
+
 const currentChar = computed(() => {
   return route.params.id;
 });
+
+watch(
+  () => characters.value,
+  () => {
+    router.push({ name: 'home' });
+    store.dispatch('updateActualPage', 1);
+  },
+  { deep: true }
+);
 
 watch(currentChar, () => {
   if (route.name === 'character') {
@@ -139,8 +154,6 @@ watch(currentChar, () => {
     loadCharInfo();
   }
 });
-
-const char = ref<Character>();
 
 onMounted(() => {
   if (route.params.id) loadCharInfo();

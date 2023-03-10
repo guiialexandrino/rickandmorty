@@ -31,7 +31,7 @@ const list = ref<HTMLUListElement | null>(null);
 const component = ref<HTMLDivElement | null>(null);
 
 const filterOptions = computed(() => {
-  return [...store.state.characters].map((char: Card) => {
+  return [...store.state.charactersBackup].map((char: Card) => {
     return {
       name: `${char.name} - #${char.id}`,
       id: char.id,
@@ -80,7 +80,7 @@ function autoComplete() {
       if (char.name.toLowerCase().includes(model.value?.name)) return char;
     });
 
-    if (search.length > 0) {
+    if (search.length > 1) {
       const li = createList(`<b>Ver todos resultados (${search.length})</b>`);
       li.onclick = function () {
         goToSeeAllResults(search);
@@ -113,7 +113,9 @@ function displayNames(value: Card) {
 }
 
 function goToSeeAllResults(result: Card[]) {
-  console.log(result);
+  store.dispatch('updateSearch', true);
+  store.dispatch('updateSearchCard', [...result]);
+  store.dispatch('updateChars', [...result]);
 }
 
 function removeElements() {

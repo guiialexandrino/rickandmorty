@@ -1,10 +1,13 @@
 <template>
   <section v-if="actualPage">
     <Nav @handle-click="actualPage = 1">
-      Showing page {{ actualPage }}
-      <span class="q-ml-md text-h6">{{
+      Showing {{ search ? `search` : '' }} page {{ actualPage }}
+      <span class="q-mx-md text-h6">{{
         sort ? '(Alphabetical order)' : ''
       }}</span>
+      <span v-if="search" class="_clean" @click="cleanSearch"
+        >Clean Search</span
+      >
     </Nav>
 
     <div ref="cards" class="row q-py-md justify-center _structure">
@@ -82,6 +85,9 @@ const showCards = computed(() => {
 const sort = computed(() => {
   return props.sort;
 });
+const search = computed(() => {
+  return store.state.search;
+});
 
 /*Hooks */
 
@@ -96,6 +102,7 @@ onUnmounted(() => {
 onMounted(() => {
   const page = store.state.actualPage;
   if (page && page <= numberOfPages.value) {
+    console.log('entra aqui?');
     actualPage.value = page;
   } else {
     router.push({ name: 'home' });
@@ -114,9 +121,13 @@ watch(actualPage, () => {
   fadeInCards();
 });
 
-watch(sort, () => {
-  fadeInCards();
-});
+watch(
+  () => showCards.value,
+  () => {
+    fadeInCards();
+  },
+  { deep: true }
+);
 
 router.beforeResolve((to, from) => {
   actualPage.value = Number(to.params.number);
@@ -167,6 +178,11 @@ function fadeInCards() {
       if (cards.value) cards.value.style.animation = '';
     }, 500);
   }
+}
+
+function cleanSearch() {
+  store.dispatch('updateChars', [...store.state.charactersBackup]);
+  store.dispatch('updateSearch', false);
 }
 </script>
 
