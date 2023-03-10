@@ -2,17 +2,16 @@
   <Transition>
     <Loading v-if="isLoading" />
   </Transition>
-  <Header v-if="loadingDone" />
-  <div
-    v-if="loadingDone"
-    class="row justify-center items-center _contentHeight_"
-  >
-    <div class="col q-px-md _content_">
-      <RouterView v-slot="{ Component }">
-        <Transition mode="out-in">
-          <Component :is="Component" />
-        </Transition>
-      </RouterView>
+  <div v-if="loadingDone" class="_animationAppear_">
+    <Header />
+    <div class="row justify-center items-center _contentHeight_">
+      <div class="col q-px-md _content_">
+        <RouterView v-slot="{ Component }">
+          <Transition mode="out-in">
+            <Component :is="Component" />
+          </Transition>
+        </RouterView>
+      </div>
     </div>
   </div>
 </template>
