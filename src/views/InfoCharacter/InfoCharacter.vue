@@ -27,22 +27,22 @@
           <div class="row q-mt-xs q-mb-lg q-gutter-y-lg justify-center">
             <!-- Info  -->
             <div class="col-12"><h4>Info</h4></div>
-            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 col-xl-3">
+            <div :class="style1">
               <strong>Gender</strong>
               <br />
               <span>{{ char?.gender }}</span>
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 col-xl-3">
+            <div :class="style1">
               <strong>Specie:</strong>
               <br />
               <span>{{ char?.species }}</span>
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 col-xl-3">
+            <div :class="style1">
               <strong>Status:</strong>
               <br />
               <span>{{ char?.status ? char.status : '-' }}</span>
             </div>
-            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 col-xl-3">
+            <div :class="style1">
               <strong>Type:</strong>
               <br />
               <span>{{ char?.type ? char.type : '-' }}</span>
@@ -50,10 +50,7 @@
 
             <!-- Origin  -->
             <div class="col-12"><h4>Origin</h4></div>
-            <div
-              v-for="(origin, attribute) in char?.origin"
-              class="col-xs-12 col-sm-4 col-md-3 col-lg-3 col-xl-3"
-            >
+            <div v-for="(origin, attribute) in char?.origin" :class="style1">
               <strong>
                 {{ capitalizeStrings(attribute) }}
               </strong>
@@ -65,7 +62,7 @@
             <div class="col-12"><h4>Last know location</h4></div>
             <div
               v-for="(location, attribute) in char?.location"
-              class="col-xs-12 col-sm-4 col-md-3 col-lg-3 col-xl-3"
+              :class="style1"
             >
               <strong>
                 {{ capitalizeStrings(attribute) }}
@@ -121,6 +118,7 @@ const loadingDone = ref(false);
 const notFound = ref<HTMLDivElement | null>(null);
 const notFoundError = ref(false);
 const char = ref<Character>();
+const style1 = 'col-xs-12 col-sm-4 col-md-3 col-lg-3 col-xl-3';
 
 const actualPage = computed(() => {
   return store.state.actualPage;
