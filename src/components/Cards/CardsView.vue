@@ -1,6 +1,6 @@
 <template>
   <section v-if="actualPage">
-    <Nav @handle-click="actualPage = 1">
+    <Nav @handle-click="">
       Showing {{ search ? `search` : '' }} page {{ actualPage }}
       <span class="q-mx-md text-h6">{{
         sort ? '(Alphabetical order)' : ''
@@ -30,7 +30,7 @@
     <div class="column q-my-xl items-center">
       <div class="col-12">
         <q-pagination
-          v-model="actualPage"
+          v-model="store.state.actualPage"
           :max="numberOfPages"
           :max-pages="maxPagesPagination"
           color="white"
@@ -41,6 +41,7 @@
           boundary-links
           icon-first="chevron_left"
           icon-last="chevron_right"
+          @click="changePage"
         />
       </div>
       <div class="col-12 text-body1 q-mt-md">
@@ -61,7 +62,7 @@ import {
   onUnmounted,
   watch,
 } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Nav from '../Nav/Nav.vue';
@@ -71,10 +72,13 @@ const props = defineProps({
   sort: { type: Boolean, required: true },
 });
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
 
 const cards = ref<HTMLDivElement | null>(null);
-const actualPage = ref(1);
+const actualPage = computed(() => {
+  return store.state.actualPage;
+});
 const maxPerPage = ref(15);
 const maxPagesPagination = ref(20);
 const numberOfPages = ref(0);
@@ -100,24 +104,8 @@ onUnmounted(() => {
 });
 
 onMounted(() => {
-  const page = store.state.actualPage;
-  if (page && page <= numberOfPages.value) {
-    console.log('entra aqui?');
-    actualPage.value = page;
-  } else {
-    router.push({ name: 'home' });
-  }
+  store.dispatch('updateActualPage', Number(route.params.number));
   paginationLimit();
-});
-
-watch(actualPage, () => {
-  if (actualPage.value) store.dispatch('updateActualPage', actualPage.value);
-  const url = window.location.href.split('/');
-  url.pop();
-  const newPath = url.join('/') + `/${actualPage.value}`;
-  window.history.pushState({}, '', new URL(newPath));
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-
   fadeInCards();
 });
 
@@ -129,16 +117,16 @@ watch(
   { deep: true }
 );
 
-router.beforeResolve((to, from) => {
-  actualPage.value = Number(to.params.number);
-});
-
 /* Functions */
 
+function changePage() {
+  router.push({ name: 'characters', params: { number: actualPage.value } });
+}
+
 function goToCharacterDetails(id: string) {
-  if (id && id !== undefined)
+  if (id && id !== undefined) {
     router.push({ name: 'character', params: { id: id } });
-  else console.log('deu erro');
+  }
 }
 
 function generatePagination(characters: Card[]) {

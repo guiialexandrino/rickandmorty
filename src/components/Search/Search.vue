@@ -116,6 +116,8 @@ function goToSeeAllResults(result: Card[]) {
   store.dispatch('updateSearch', true);
   store.dispatch('updateSearchCard', [...result]);
   store.dispatch('updateChars', [...result]);
+  store.dispatch('updateActualPage', 1);
+  store.dispatch('updateSortPage', false);
 }
 
 function removeElements() {

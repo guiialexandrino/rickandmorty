@@ -80,7 +80,6 @@ router.beforeResolve((to, from) => {
 function handleSortGrid() {
   store.dispatch('updateSortPage', !sort.value);
   if (sort.value) {
-    console.log('entra aqui para .sort');
     const sorted = charactersCard.value.sort((a: Card, b: Card) => {
       if (a.name > b.name) {
         return 1;
