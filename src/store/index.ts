@@ -9,6 +9,7 @@ export default createStore({
     characters: [] as Card[],
     charactersBackup: [] as Card[],
     actualPage: 1,
+    sortValue: false,
   },
   getters: {},
   mutations: {
@@ -29,6 +30,9 @@ export default createStore({
     },
     UPDATE_ACTUALPAGE(state, payload: number) {
       state.actualPage = payload;
+    },
+    UPDATE_SORTVALUE(state, payload: boolean) {
+      state.sortValue = payload;
     },
   },
   actions: {
@@ -58,6 +62,10 @@ export default createStore({
 
     updateActualPage(context, payload: number) {
       context.commit('UPDATE_ACTUALPAGE', payload);
+    },
+
+    updateSortPage(context, payload: boolean) {
+      context.commit('UPDATE_SORTVALUE', payload);
     },
   },
   modules: {},

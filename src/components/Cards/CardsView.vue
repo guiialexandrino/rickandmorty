@@ -58,7 +58,7 @@ import {
   onUnmounted,
   watch,
 } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Nav from '../Nav/Nav.vue';

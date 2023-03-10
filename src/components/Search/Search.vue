@@ -16,29 +16,19 @@
 <script setup lang="ts">
 import type { Card } from '@/types/Cards';
 
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { useQuasar } from 'quasar';
 
 import ClickOutside from './ClickOutside';
 
 const store = useStore();
-const $q = useQuasar();
 const router = useRouter();
 
 const model = ref<Card>({ name: '', id: '', image: '' });
 const chars = ref<Card[]>([]);
 const list = ref<HTMLUListElement | null>(null);
 const component = ref<HTMLDivElement | null>(null);
-
-onMounted(() => {
-  const data: any = $q.sessionStorage.getItem('chars');
-  if (data) {
-    store.dispatch('updateChars', [...data]);
-    store.dispatch('updateCharsBackup', [...data]);
-  }
-});
 
 const filterOptions = computed(() => {
   return [...store.state.characters].map((char: Card) => {
@@ -109,10 +99,6 @@ function createList(label: string) {
   return li;
 }
 
-function goToSeeAllResults(result: Card[]) {
-  console.log(result);
-}
-
 function displayNames(value: Card) {
   model.value = { ...value };
   const showSearch = chars.value.filter(
@@ -124,6 +110,10 @@ function displayNames(value: Card) {
 
   removeElements();
   return [value];
+}
+
+function goToSeeAllResults(result: Card[]) {
+  console.log(result);
 }
 
 function removeElements() {
