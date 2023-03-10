@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onBeforeMount } from 'vue';
+import { computed, onBeforeMount } from 'vue';
 import { RouterView } from 'vue-router';
 import { useStore } from 'vuex';
 import { useQuasar } from 'quasar';
@@ -31,11 +31,9 @@ const isLoading = computed(() => {
 
 onBeforeMount(() => {
   const data: any = $q.sessionStorage.getItem('chars');
-  let chars = [];
   if (data) {
-    chars = [...data];
-    store.dispatch('updateChars', [...chars]);
-    store.dispatch('updateCharsBackup', [...chars]);
+    store.dispatch('updateChars', [...data]);
+    store.dispatch('updateCharsBackup', [...data]);
   }
 });
 </script>
