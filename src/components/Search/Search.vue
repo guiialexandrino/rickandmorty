@@ -15,10 +15,12 @@
 
 <script setup lang="ts">
 import type { Card } from '@/types/Cards';
+
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { useQuasar } from 'quasar';
+
 import ClickOutside from './ClickOutside';
 
 const store = useStore();
@@ -26,30 +28,20 @@ const $q = useQuasar();
 const router = useRouter();
 
 const model = ref<Card>({ name: '', id: '', image: '' });
+const chars = ref<Card[]>([]);
 const list = ref<HTMLUListElement | null>(null);
 const component = ref<HTMLDivElement | null>(null);
 
-ClickOutside(component, () => {
-  removeElements();
-});
-
-// let newArray = [...store.state.characters];
-const newArray = computed(() => {
-  return [...store.state.characters];
-});
-
 onMounted(() => {
   const data: any = $q.sessionStorage.getItem('chars');
-  let chars = [];
   if (data) {
-    chars = [...data];
-    store.dispatch('updateChars', [...chars]);
-    store.dispatch('updateCharsBackup', [...chars]);
+    store.dispatch('updateChars', [...data]);
+    store.dispatch('updateCharsBackup', [...data]);
   }
 });
 
 const filterOptions = computed(() => {
-  return newArray.value.map((char: Card) => {
+  return [...store.state.characters].map((char: Card) => {
     return {
       name: `${char.name} - #${char.id}`,
       id: char.id,
@@ -58,8 +50,9 @@ const filterOptions = computed(() => {
   });
 });
 
-const chars = ref<Card[]>([]);
-chars.value = [...filterOptions.value];
+ClickOutside(component, () => {
+  removeElements();
+});
 
 function autoComplete() {
   chars.value = [...filterOptions.value];
@@ -67,37 +60,57 @@ function autoComplete() {
 
   let maxResults = 0;
 
-  if (model.value.name.length > 1)
+  if (model.value.name.length > 1) {
     for (let i of chars.value) {
       //convert input to lowercase and compare with each string
-
       if (
         i.name.toLowerCase().startsWith(model.value?.name.toLowerCase()) &&
         model.value?.name != '' &&
-        maxResults < 12
+        maxResults < 6
       ) {
         maxResults++;
 
-        //create li element
-        let listItem = document.createElement('li');
+        //Display matched part in bold
+        let label =
+          '<b>' + i.name.substring(0, model.value?.name.length) + '</b>';
+        label += i.name.substring(model.value?.name.length);
 
-        //One common class name
-        listItem.classList.add('list-items');
-        listItem.style.cursor = 'pointer';
+        const listItem = createList(label);
         listItem.onclick = function () {
           displayNames(i);
         };
 
-        //Display matched part in bold
-        let word =
-          '<b>' + i.name.substring(0, model.value?.name.length) + '</b>';
-        word += i.name.substring(model.value?.name.length);
-
         //display the value in array
-        listItem.innerHTML = word;
+        listItem.innerHTML = label;
         list.value?.appendChild(listItem);
       }
     }
+
+    const search = chars.value.filter((char: Card) => {
+      if (char.name.toLowerCase().includes(model.value?.name)) return char;
+    });
+
+    if (search.length > 0) {
+      const li = createList(`<b>Ver todos resultados (${search.length})</b>`);
+      li.onclick = function () {
+        goToSeeAllResults(search);
+      };
+      list.value?.appendChild(li);
+    }
+  }
+}
+
+function createList(label: string) {
+  const li: HTMLLIElement = document.createElement('li');
+  li.classList.add('list-items');
+  li.innerHTML = label;
+  li.style.cursor = 'pointer';
+
+  return li;
+}
+
+function goToSeeAllResults(result: Card[]) {
+  console.log(result);
 }
 
 function displayNames(value: Card) {
@@ -110,6 +123,7 @@ function displayNames(value: Card) {
   router.push({ name: 'character', params: { id: model.value.id } });
 
   removeElements();
+  return [value];
 }
 
 function removeElements() {
