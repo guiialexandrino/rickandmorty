@@ -1,6 +1,6 @@
 <template>
   <section v-if="actualPage">
-    <Nav @handle-click="">
+    <Nav @handle-click="indexPage">
       Showing {{ search ? `search` : '' }} page {{ actualPage }}
       <span class="q-mx-md text-h6">{{
         sort ? '(Alphabetical order)' : ''
@@ -118,6 +118,11 @@ watch(
 );
 
 /* Functions */
+
+function indexPage() {
+  store.dispatch('updateActualPage', 1);
+  router.push({ name: 'characters', params: { number: 1 } });
+}
 
 function changePage() {
   router.push({ name: 'characters', params: { number: actualPage.value } });
