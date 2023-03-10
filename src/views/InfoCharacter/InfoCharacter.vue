@@ -104,7 +104,7 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router';
 import { computed, onMounted, ref, watch } from 'vue';
-import { connectApi } from '../../utils/connectApi';
+import { connectApi, QUERY_CHARACTER } from '../../utils/connectApi';
 
 import Logo from '@/components/Logo/Logo.vue';
 import Nav from '@/components/Nav/Nav.vue';
@@ -150,30 +150,7 @@ function loadCharInfo() {
   store.dispatch('updateLoadingShowProcess', false);
   store.dispatch('loadingInit');
 
-  connectApi(`
-    character(id: ${route.params.id}) {
-    id
-    name
-    image
-    gender
-    species
-    status
-    type
-    location {
-      dimension
-      name
-      type
-    }
-    origin {
-      dimension
-      name
-      type
-    }
-    episode {
-      episode
-      name
-    }
-  }`)
+  connectApi(QUERY_CHARACTER(String(route.params.id)))
     .then((result) => {
       if (result.data.character === null) throw Error;
       char.value = result.data.character;
@@ -207,7 +184,6 @@ function noSearchFound() {
       notFound.value.style.minHeight = `${subtract}px`;
     }
   }, 100);
-  // console.log(notFound.value.offsetTop);
 }
 
 function backToCharacters() {

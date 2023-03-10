@@ -32,7 +32,11 @@
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { onMounted, ref, computed } from 'vue';
-import { connectApi } from '../../utils/connectApi';
+import {
+  connectApi,
+  QUERY_PAGES,
+  QUERY_CHARACTERS,
+} from '../../utils/connectApi';
 import { useQuasar } from 'quasar';
 
 import type { Card } from '../../types/Cards';
@@ -74,36 +78,22 @@ onMounted(() => {
 
 async function init() {
   store.dispatch('loadingInit');
-  connectApi(`characters{
-    info {
-      count
-      pages
-    }
-  }`).then(async (result) => {
+  connectApi(QUERY_PAGES).then(async (result) => {
     count.value = result.data.characters.info.count;
     pages.value = result.data.characters.info.pages;
     const charactersPromises = [];
 
     for (let i = 1; i <= pages.value; i++) {
       charactersPromises.push(
-        connectApi(
-          `characters(page: ${i}){
-          results {
-            id
-            name
-            image
-          }
-        }`,
-          () => {
-            loadingValueProcess.value = loadingValueProcess.value + 1;
+        connectApi(QUERY_CHARACTERS(i), () => {
+          loadingValueProcess.value = loadingValueProcess.value + 1;
 
-            const updateLoading = Math.round(
-              (loadingValueProcess.value / pages.value) * 100
-            );
+          const updateLoading = Math.round(
+            (loadingValueProcess.value / pages.value) * 100
+          );
 
-            store.dispatch('updateLoadingProcess', updateLoading);
-          }
-        )
+          store.dispatch('updateLoadingProcess', updateLoading);
+        })
       );
     }
 

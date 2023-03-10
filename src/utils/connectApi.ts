@@ -21,3 +21,47 @@ export function connectApi(query: string, doSomething?: callback) {
     return res.json();
   });
 }
+
+export const QUERY_PAGES = `characters{
+    info {
+      count
+      pages
+    }
+  }`;
+
+export const QUERY_CHARACTERS = (id: Number) => {
+  return `characters(page: ${id}){
+          results {
+            id
+            name
+            image
+          }
+        }`;
+};
+
+export const QUERY_CHARACTER = (id: String) => {
+  return `
+    character(id: ${id}) {
+    id
+    name
+    image
+    gender
+    species
+    status
+    type
+    location {
+      dimension
+      name
+      type
+    }
+    origin {
+      dimension
+      name
+      type
+    }
+    episode {
+      episode
+      name
+    }
+  }`;
+};
