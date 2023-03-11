@@ -6,12 +6,20 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      redirect: { name: 'characters', params: { number: 1 } },
+      redirect: { name: 'characters-main' },
     },
     {
-      path: '/characters/:number',
-      name: 'characters',
+      path: '/characters',
+      name: 'characters-main',
       component: () => import('../views/Cards/Cards.vue'),
+      children: [
+        {
+          path: ':number',
+          name: 'characters',
+          component: () => import('../views/Cards/Cards.vue'),
+        },
+      ],
+      redirect: { name: 'characters', params: { number: 1 } },
     },
     {
       path: '/character/:id',

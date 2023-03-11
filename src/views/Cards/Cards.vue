@@ -77,6 +77,8 @@ router.beforeResolve((to, from) => {
   }
 });
 
+/* Functions */
+
 function handleSortGrid() {
   store.dispatch('updateSortPage', !sort.value);
   if (sort.value) {

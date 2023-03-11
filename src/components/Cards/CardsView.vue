@@ -76,12 +76,15 @@ const route = useRoute();
 const store = useStore();
 
 const cards = ref<HTMLDivElement | null>(null);
-const actualPage = computed(() => {
-  return store.state.actualPage;
-});
 const maxPerPage = ref(15);
 const maxPagesPagination = ref(20);
 const numberOfPages = ref(0);
+
+/*Computed */
+
+const actualPage = computed(() => {
+  return store.state.actualPage;
+});
 const showCards = computed(() => {
   const chars = [...props.characters];
   return generatePagination(chars);
@@ -104,7 +107,9 @@ onUnmounted(() => {
 });
 
 onMounted(() => {
-  store.dispatch('updateActualPage', Number(route.params.number));
+  const number = Number(route.params.number);
+  const paramNumber = number <= numberOfPages.value ? number : 1;
+  store.dispatch('updateActualPage', paramNumber);
   paginationLimit();
   fadeInCards();
 });
@@ -176,6 +181,8 @@ function fadeInCards() {
 function cleanSearch() {
   store.dispatch('updateChars', [...store.state.charactersBackup]);
   store.dispatch('updateSearch', false);
+  store.dispatch('updateSortPage', false);
+  router.push({ name: 'characters-main' });
 }
 </script>
 
