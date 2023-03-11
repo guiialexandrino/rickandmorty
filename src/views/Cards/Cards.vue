@@ -16,7 +16,7 @@
         <Transition mode="out-in">
           <CardsList
             v-if="showCharactersInfo === 'list'"
-            :characters="charsBackup"
+            :characters="charactersCard"
           />
         </Transition>
         <Transition mode="out-in">

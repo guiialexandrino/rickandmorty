@@ -5,9 +5,13 @@
       <span class="q-mx-md text-h6">{{
         sort ? '(Alphabetical order)' : ''
       }}</span>
-      <span v-if="search" class="_clean" @click="cleanSearch"
-        >Clean Search</span
+      <span
+        v-if="search"
+        :class="$q.screen.lt.md ? `q-mt-lg _clean` : `_clean`"
+        @click="cleanSearch"
       >
+        Clean Search
+      </span>
     </Nav>
 
     <div ref="cards" class="row q-py-md justify-center _structure">

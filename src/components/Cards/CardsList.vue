@@ -1,6 +1,15 @@
 <template>
   <section>
-    <Nav @handle-click="backToCharacters"> Showing all</Nav>
+    <Nav @handle-click="backToCharacters">
+      {{ search ? 'Showing search results' : 'Showing all' }}
+      <span
+        v-if="search"
+        :class="$q.screen.lt.md ? `q-ml-lg q-mt-lg _clean` : `q-ml-lg _clean`"
+        @click="cleanSearch"
+      >
+        Clean Search
+      </span>
+    </Nav>
     <h6>Click in desired letter:</h6>
     <div class="row q-pb-xl justify-center text-h3">
       <div class="row q-gutter-lg justify-center _index">
@@ -56,6 +65,7 @@ import type { PropType } from 'vue';
 
 import { computed, onBeforeMount, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 import Nav from '../Nav/Nav.vue';
 
@@ -63,10 +73,14 @@ const props = defineProps({
   characters: { type: Array as PropType<Card[]>, required: true },
 });
 
+const store = useStore();
+
 const router = useRouter();
 const splitString = ref(false);
 const idLetters = ref<HTMLDivElement[] | null>([]);
 const idLastClick = ref(0);
+
+/* Computeds */
 
 const list = computed(() => {
   let orderedList: List[] = [];
@@ -88,6 +102,22 @@ const list = computed(() => {
     return 0;
   });
 });
+
+const search = computed(() => {
+  return store.state.search;
+});
+
+/* Hooks */
+
+onBeforeMount(() => {
+  window.addEventListener('resize', splitCharName);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', splitCharName);
+});
+
+/* Functions */
 
 function checkList(list: List[], character: Card, label: String = '0-9') {
   const check = list.find((item) => {
@@ -119,20 +149,19 @@ function goToCharPage(id: string) {
   if (id) router.push({ name: 'character', params: { id: id } });
 }
 
-onBeforeMount(() => {
-  window.addEventListener('resize', splitCharName);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('resize', splitCharName);
-});
-
 function splitCharName() {
   if (window.innerWidth < 600) {
     splitString.value = true;
   } else {
     splitString.value = false;
   }
+}
+
+function cleanSearch() {
+  store.dispatch('updateChars', [...store.state.charactersBackup]);
+  store.dispatch('updateSearch', false);
+  store.dispatch('updateSortPage', false);
+  router.push({ name: 'characters-main' });
 }
 </script>
 
